@@ -11,6 +11,7 @@ class Profil extends BaseController
             'npm' => '2310010076',
             'nama' => 'Wirda Hajiza Fadila',
             'prodi' => 'Teknik Informatika',
+            'fakultas' => 'Teknologi Banjarmasin',
             'angkatan' => '2023',
             'ipk' => 4.00,
             'mata_kuliah' => [

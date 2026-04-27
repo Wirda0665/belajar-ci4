@@ -75,3 +75,38 @@ if (!function_exists('status_badge')) {
         return "<span class='badge bg-{$warna}'>" . ucfirst($status) . "</span>";
     }
 }
+
+if (!function_exists('inisial_nama')) {
+    /**
+     * Mengambil inisial dari nama lengkap
+     * @param string $namaLengkap
+     * @return string
+     */
+    function inisial_nama(string $namaLengkap): string
+    {
+        $kata = preg_split('/\s+/', trim($namaLengkap));
+        if (empty($kata)) {
+            return '';
+        }
+        $inisial = '';
+        foreach ($kata as $bagian) {
+            if ($bagian !== '') {
+                $inisial .= mb_substr($bagian, 0, 1);
+            }
+        }
+        return mb_strtoupper($inisial);
+    }
+}
+
+if (!function_exists('avatar_url')) {
+    /**
+     * Menghasilkan URL avatar dari ui-avatars.com
+     * @param string $nama
+     * @return string
+     */
+    function avatar_url(string $nama): string
+    {
+        $encodedName = urlencode($nama);
+        return "https://ui-avatars.com/api/?name={$encodedName}&background=0D6EFD&color=FFFFFF&rounded=true&size=256";
+    }
+}
