@@ -17,5 +17,8 @@ $routes->get('akademik/matkul', 'Akademik::matkul');
 
 $routes->get('akademik/nilai/(:any)', 'Akademik::nilai/$1');
 
+// Route halaman Profil
+$routes->get('profil', 'Profil::index');
+
 // Route controller Demo
 $routes->get('demo', 'Demo::index');
