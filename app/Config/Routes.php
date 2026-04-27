@@ -22,3 +22,6 @@ $routes->get('profil', 'Profil::index');
 
 // Route controller Demo
 $routes->get('demo', 'Demo::index');
+
+// Route halaman Galeri
+$routes->get('galeri', 'Galeri::index');
