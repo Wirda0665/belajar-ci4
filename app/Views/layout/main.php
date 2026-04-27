@@ -17,6 +17,10 @@
 </head>
 
 <body>
+    <?php
+    $uri = service('uri');
+    $path = trim($uri->getPath(), '/');
+    ?>
     <!-- NAVBAR -->
     <nav class='navbar navbar-expand-lg navbar-dark bg-primary shadow-sm'>
         <div class='container'>
@@ -30,21 +34,20 @@
             <div class='collapse navbar-collapse' id='navMenu'>
                 <ul class='navbar-nav me-auto'>
                     <li class='nav-item'>
-                        <a class='nav-link <?= (current_url() == base_url('/')) ?
-                                                'active' : '' ?>'
+                        <a class='nav-link <?= ($path === '' || $path === '/') ? 'active' : '' ?>'
                             href='<?= base_url('/') ?>'>
                             <i class='bi bi-house'></i> Beranda
                         </a>
                     </li>
                     <li class='nav-item'>
-                        <a class='nav-link <?= str_contains(current_url(), '/buku') ?
-                                                'active' : '' ?>'
+                        <a class='nav-link <?= ($path === 'buku' || str_starts_with($path, 'buku/')) ? 'active' : '' ?>'
                             href='<?= base_url('buku') ?>'>
                             <i class='bi bi-journals'></i> Buku
                         </a>
                     </li>
                     <li class='nav-item'>
-                        <a class='nav-link' href='<?= base_url('tentang') ?>'>
+                        <a class='nav-link <?= $path === 'tentang' ? 'active' : '' ?>'
+                            href='<?= base_url('tentang') ?>'>
                             <i class='bi bi-info-circle'></i> Tentang
                         </a>
                     </li>
@@ -142,6 +145,7 @@
     <!-- END FOOTER -->
     <!-- Bootstrap 5 JS -->
     <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js'></script>
+    <?= $this->renderSection('scripts') ?>
 </body>
 
 </html>
