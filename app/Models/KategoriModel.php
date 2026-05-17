@@ -26,4 +26,31 @@ class KategoriModel extends Model
         }
         return $result;
     }
+
+    /**
+     * Ambil kategori dengan paginasi dan jumlah buku
+     */
+    public function getKategoriPaginate(int $perPage = 10, string $keyword = '')
+    {
+        $this->select('kategori.*, (SELECT COUNT(id) FROM buku WHERE buku.kategori_id = kategori.id) AS jumlah_buku')
+             ->orderBy('kategori.nama', 'ASC');
+             
+        if (!empty($keyword)) {
+            $this->like('kategori.nama', $keyword);
+        }
+        
+        return $this->paginate($perPage);
+    }
+
+    /**
+     * Cek apakah nama kategori sudah ada (untuk validasi unik)
+     */
+    public function isNamaTaken(string $nama, int $excludeId = 0): bool
+    {
+        $qb = $this->where('nama', $nama);
+        if ($excludeId > 0) {
+            $qb->where('id !=', $excludeId);
+        }
+        return $qb->countAllResults() > 0;
+    }
 }
