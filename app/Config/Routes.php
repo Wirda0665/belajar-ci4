@@ -28,6 +28,7 @@ $routes->get('galeri', 'Galeri::index');
 
 // Route CRUD Buku
 $routes->get('buku', 'Buku::index');
+$routes->get('buku/statistik', 'Buku::statistik');
 $routes->get('buku/tambah', 'Buku::tambah');
 $routes->post('buku/simpan', 'Buku::simpan');
 $routes->get('buku/detail/(:num)', 'Buku::detail/$1');
