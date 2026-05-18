@@ -75,6 +75,8 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->group('admin', ['filter' => 'role:admin'], function ($routes) {
         $routes->get('/', 'Admin\Dashboard::index');
         $routes->get('pengguna', 'Admin\Pengguna::index');
+        $routes->post('pengguna/toggle-aktif/(:num)', 'Admin\Pengguna::toggleAktif/$1');
+        $routes->post('pengguna/ubah-role/(:num)', 'Admin\Pengguna::ubahRole/$1');
     });
     // Akun - untuk pengguna yang sudah login
     $routes->group('akun', function ($routes) {

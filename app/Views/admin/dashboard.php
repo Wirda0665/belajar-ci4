@@ -73,7 +73,10 @@
     </div>
     <div class='col-md-6'>
         <div class='card mb-4'>
-            <div class='card-header'><strong>Pengguna Terbaru</strong></div>
+            <div class='card-header d-flex justify-content-between align-items-center'>
+                <strong>Pengguna Terbaru</strong>
+                <a href="<?= base_url('admin/pengguna') ?>" class="btn btn-sm btn-primary">Kelola Pengguna</a>
+            </div>
             <div class='card-body p-0'>
                 <table class='table table-hover mb-0'>
                     <thead class='tablelight'>
