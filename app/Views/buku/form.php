@@ -1,6 +1,11 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 <?php $isEdit = !is_null($buku); ?>
+<?php
+$isEdit = !is_null($buku);
+// Ambil errors dari session flashdata
+$errors = session()->getFlashdata('errors') ?? [];
+?>
 <div class='row justify-content-center'>
     <div class='col-md-9'>
         <div class='card shadow-sm'>
@@ -12,9 +17,17 @@
             </div>
             <div class='card-body'>
                 <!-- Error dari session -->
-                <?php if (session()->getFlashdata('error')): ?>
+                <?php if (!empty($errors)): ?>
                     <div class='alert alert-danger'>
-                        <?= esc(session()->getFlashdata('error')) ?>
+                        <h6 class='alert-heading'>
+                            <i class='bi bi-exclamation-triangle-fill'></i>
+                            Terdapat <?= count($errors) ?> kesalahan:
+                        </h6>
+                        <ul class='mb-0 ps-3'>
+                            <?php foreach ($errors as $field => $msg): ?>
+                                <li><?= esc($msg) ?></li>
+                            <?php endforeach; ?>
+                        </ul>
                     </div>
                 <?php endif; ?>
                 <form action='<?= base_url($isEdit ? 'buku/update/' . $buku['id'] :
