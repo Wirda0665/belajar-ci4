@@ -32,17 +32,47 @@ class Auth extends BaseController
         }
         $identifier = $this->request->getPost('identifier');
         $password = $this->request->getPost('password');
+
+        // Cek apakah akun sedang dikunci
+        $lockKey = 'lock_' . md5($identifier);
+        if (session()->getTempdata($lockKey)) {
+            session()->setFlashdata('error', 'Akun dikunci selama 10 menit akibat terlalu banyak percobaan login.');
+            return redirect()->to('/login');
+        }
+
         $user = $this->userModel->cariUserAktif($identifier);
         // Gunakan pesan generik agar attacker tidak tahu
         // apakah username atau password yang salah (security best practice)
         $pesanError = 'Username/email atau password salah. Silakan coba lagi.';
+        
         if (!$user || !password_verify($password, $user['password'])) {
             // Jika user tidak ada, tetap jalankan password_verify
             // untuk mencegah timing attack yang mengukur waktu respons
             if (!$user) password_verify($password, '$2y$12$dummy_hash_untuk_timing');
+            
+            // Hitung percobaan login yang gagal
+            $attemptKey = 'attempt_' . md5($identifier);
+            $attempts = (int) (session()->getTempdata($attemptKey) ?? 0);
+            $attempts++;
+            
+            if ($attempts >= 5) {
+                // Kunci akun selama 10 menit (600 detik)
+                session()->setTempdata($lockKey, true, 600);
+                session()->removeTempdata($attemptKey);
+                $pesanError = 'Akun dikunci selama 10 menit akibat terlalu banyak percobaan login.';
+            } else {
+                // Simpan percobaan dengan TTL 10 menit
+                session()->setTempdata($attemptKey, $attempts, 600);
+            }
+
             session()->setFlashdata('error', $pesanError);
             return redirect()->to('/login');
         }
+
+        // Reset hitungan percobaan dan kunci setelah login berhasil
+        session()->removeTempdata('attempt_' . md5($identifier));
+        session()->removeTempdata('lock_' . md5($identifier));
+
         // Login berhasil — simpan data ke session
         session()->set([
             'user_id' => $user['id'],
