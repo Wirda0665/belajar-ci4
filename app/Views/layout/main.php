@@ -50,12 +50,26 @@
                 </ul>
                 <div class='navbar-nav'>
                     <?php if (session()->get('logged_in')): ?>
-                        <span class='navbar-text me-3 text-light'>
-                            <i class='bi bi-person-circle'></i> <?= esc(session()->get('nama')) ?>
-                        </span>
-                        <a class='btn btn-outline-light btn-sm' href='<?= base_url('logout') ?>'>
-                            <i class='bi bi-box-arrow-right'></i> Logout
-                        </a>
+                        <div class='nav-item dropdown'>
+                            <a class='nav-link dropdown-toggle text-light' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
+                                <i class='bi bi-person-circle'></i> <?= esc(session()->get('nama')) ?>
+                            </a>
+                            <ul class='dropdown-menu dropdown-menu-end shadow'>
+                                <li>
+                                    <a class='dropdown-item' href='<?= base_url('akun/ganti-password') ?>'>
+                                        <i class='bi bi-key'></i> Ganti Password
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class='dropdown-divider'>
+                                </li>
+                                <li>
+                                    <a class='dropdown-item text-danger' href='<?= base_url('logout') ?>'>
+                                        <i class='bi bi-box-arrow-right'></i> Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     <?php else: ?>
                         <a class='btn btn-outline-light btn-sm' href='<?= base_url('login') ?>'>
                             <i class='bi bi-box-arrow-in-right'></i> Login
@@ -76,22 +90,22 @@
                         <li class='breadcrumb-item'>
                             <a href='<?= base_url('/') ?>'>Beranda</a>
                         </li>
-                        <?php 
+                        <?php
                         $totalItems = count($breadcrumb);
                         $counter = 0;
-                        foreach ($breadcrumb as $crumb): 
+                        foreach ($breadcrumb as $crumb):
                             $counter++;
                             // Jika ini adalah elemen terakhir, set menjadi active text (bukan link)
-                            if ($counter === $totalItems): 
+                            if ($counter === $totalItems):
                         ?>
-                            <li class='breadcrumb-item active' aria-current='page'>
-                                <?= esc($crumb['label']) ?>
-                            </li>
-                        <?php else: ?>
-                            <li class='breadcrumb-item'>
-                                <a href='<?= esc($crumb['url']) ?>'><?= esc($crumb['label']) ?></a>
-                            </li>
-                        <?php endif; ?>
+                                <li class='breadcrumb-item active' aria-current='page'>
+                                    <?= esc($crumb['label']) ?>
+                                </li>
+                            <?php else: ?>
+                                <li class='breadcrumb-item'>
+                                    <a href='<?= esc($crumb['url']) ?>'><?= esc($crumb['label']) ?></a>
+                                </li>
+                            <?php endif; ?>
                         <?php endforeach; ?>
                     </ol>
                 </nav>
@@ -110,7 +124,7 @@
                 <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
             </div>
         <?php endif; ?>
-        
+
         <?php if (session()->getFlashdata('error')): ?>
             <div class='alert alert-danger alert-dismissible fade show' role='alert'>
                 <i class='bi bi-exclamation-triangle-fill me-2'></i>
@@ -118,7 +132,7 @@
                 <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
             </div>
         <?php endif; ?>
-        
+
         <?php if (session()->getFlashdata('info')): ?>
             <div class='alert alert-info alert-dismissible fade show' role='alert'>
                 <i class='bi bi-info-circle-fill me-2'></i>

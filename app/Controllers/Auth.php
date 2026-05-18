@@ -12,7 +12,7 @@ class Auth extends BaseController
         $this->userModel = new UserModel();
     }
     /** Halaman login. Jika sudah login, redirect ke beranda. */
-    public function login(): string
+    public function login()
     {
         if (session()->get('logged_in')) {
             return redirect()->to('/');

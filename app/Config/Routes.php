@@ -76,4 +76,9 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
         $routes->get('/', 'Admin\Dashboard::index');
         $routes->get('pengguna', 'Admin\Pengguna::index');
     });
+    // Akun - untuk pengguna yang sudah login
+    $routes->group('akun', function ($routes) {
+        $routes->get('ganti-password', 'Akun::gantiPassword');
+        $routes->post('proses-ganti-password', 'Akun::prosesGantiPassword');
+    });
 });
